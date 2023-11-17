@@ -1,11 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const dotenv = require("dotenv")
-
-
-
-dotenv.config()
+require("dotenv").config();
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
