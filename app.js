@@ -14,12 +14,12 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use('/api/ourfriends', ourFriendsRouter);
+
 
 
 // app.use();
 app.use("/api/myPet", myPetRout);
-
+app.use('/api/ourfriends', ourFriendsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
