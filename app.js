@@ -5,11 +5,18 @@ require("dotenv").config();
 const app = express();
 const myPetRout = require("./routes/api/pet");
 
+const ourFriendsRouter = require('./routes/api/contacts');
+
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+
+
+app.use('/api/ourfriends', ourFriendsRouter);
+
+
 // app.use();
 app.use("/api/myPet", myPetRout);
 
