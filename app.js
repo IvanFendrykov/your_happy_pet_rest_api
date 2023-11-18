@@ -3,6 +3,7 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
+const myPetRout = require("./routes/api/pet");
 
 const ourFriendsRouter = require('./routes/api/contacts');
 
@@ -12,9 +13,13 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+
 app.use('/api/ourfriends', ourFriendsRouter);
 
+
 // app.use();
+app.use("/api/myPet", myPetRout);
+
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
