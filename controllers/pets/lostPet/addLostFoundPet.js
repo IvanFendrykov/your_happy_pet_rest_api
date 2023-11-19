@@ -13,7 +13,7 @@ const addlostFoundPet = ctrlWrapper(async (req, res) => {
   res.status(201).json({
     code: 201,
     status: "created",
-    data: response,
+    data: {response},
   });
 });
 

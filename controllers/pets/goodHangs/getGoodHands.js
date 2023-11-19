@@ -6,7 +6,7 @@ const getGoodHands = ctrlWrapper(async (req, res) => {
   res.status(200).json({
     code: 200,
     status: "finded",
-    data: response,
+    data: {response},
   });
 });
 
