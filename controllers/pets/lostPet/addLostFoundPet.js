@@ -1,24 +1,12 @@
-const fs = require("fs");
-const path = require("path");
 const LostFound = require("../../../models/pets/lostFoundPet");
 const ctrlWrapper = require("../../../helpers/ctrlWrapper");
+const cloudinary = require("../../../servis/cloudinary");
 
 const addlostFoundPet = ctrlWrapper(async (req, res) => {
-  const { path: tempUpload, originalname } = req.file;
+  const { path: tempUpload } = req.file;
 
-  const resultPath = path.join(
-    __dirname,
-    "../",
-    "../",
-    "public",
-    "image",
-    originalname
-  );
-
-  await fs.renameSync(tempUpload, resultPath);
-
-  const image = path.join("public", "image", originalname);
-
+  const resultImg = await cloudinary.uploader.upload(tempUpload);
+  const image = resultImg.url;
   req.body.image = image;
 
   const response = await LostFound.create(req.body);
