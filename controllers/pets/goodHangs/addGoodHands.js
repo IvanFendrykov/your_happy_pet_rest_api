@@ -19,4 +19,4 @@ const addGoodHands = ctrlWrapper(async (req, res) => {
   });
 });
 
-module.exports = { addGoodHands };
+module.exports = { addGoodHands} ;
