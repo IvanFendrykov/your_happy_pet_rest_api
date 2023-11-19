@@ -1,5 +1,5 @@
-const ctrlWrapper = require("../../helpers/ctrlWrapper");
-const myPet = require("../../models/pets/myPet");
+const ctrlWrapper = require("../../../helpers/ctrlWrapper");
+const myPet = require("../../../models/pets/myPet");
 
 const delMyPet = ctrlWrapper(async (req, res) => {
   const { petId } = req.params;

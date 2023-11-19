@@ -3,7 +3,10 @@ const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
-const myPetRout = require("./routes/api/pet");
+const myPetRout = require("./routes/api/pets/myPet");
+const sellRout = require("./routes/api/pets/sellPet");
+const lostFound = require("./routes/api/pets/lostFoundPet");
+const goodHands = require("./routes/api/pets/inGoodHands");
 
 const ourFriendsRouter = require('./routes/api/ourFriends');
 
@@ -14,12 +17,20 @@ app.use(cors());
 app.use(express.json());
 
 
-
-
-
-// app.use();
-app.use("/api/myPet", myPetRout);
 app.use('/api/ourfriends', ourFriendsRouter);
+
+
+
+
+
+app.use("/api/myPet", myPetRout);
+
+app.use("/api/petSale", sellRout);
+app.use("/api/lostFound", lostFound);
+app.use("/api/inGoodHands", goodHands);
+
+app.use('/api/ourfriends', ourFriendsRouter);
+
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
