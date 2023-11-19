@@ -1,4 +1,4 @@
-const connectMongoDB = require("./host");
+const connectMongoDB = require('./host');
 
 module.exports = {
   connectMongoDB,

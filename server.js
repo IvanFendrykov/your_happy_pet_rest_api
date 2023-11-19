@@ -1,5 +1,5 @@
-const app = require("./app");
-const {connectMongoDB} = require("./servis/index")
+const app = require('./app');
+const {connectMongoDB} = require('./servis/index')
 const { PORT } = process.env;
 
 

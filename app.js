@@ -1,34 +1,43 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
-require("dotenv").config();
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
+require('dotenv').config();
 const app = express();
 const myPetRout = require("./routes/api/pets/myPet");
 const sellRout = require("./routes/api/pets/sellPet");
 const lostFound = require("./routes/api/pets/lostFoundPet");
 const goodHands = require("./routes/api/pets/inGoodHands");
 
-const ourFriendsRouter = require('./routes/api/contacts');
+const ourFriendsRouter = require('./routes/api/ourFriends');
 
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+
 app.use('/api/ourfriends', ourFriendsRouter);
 
+
+
+
+
 app.use("/api/myPet", myPetRout);
+
 app.use("/api/petSale", sellRout);
 app.use("/api/lostFound", lostFound);
 app.use("/api/inGoodHands", goodHands);
 
+app.use('/api/ourfriends', ourFriendsRouter);
+
+
 app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
+  res.status(404).json({ message: 'Not found' });
 });
 
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Server error" } = err;
+  const { status = 500, message = 'Server error' } = err;
   res.status(status).json({ message });
 });
 
