@@ -7,11 +7,23 @@ const ourFriendSchema = new Schema({
         type: String,
         required: true
     },
+    url: {
+        type: String,
+        required: true
+    },
+    addressUrl: {
+        type: String,
+        required: true
+    },
     time: {
         type: String,
         required: true
     },
-    adress: {
+    workDays: {
+        type: Array,
+        required: true
+    },
+    address: {
         type: String,
         required: true
     },
@@ -23,7 +35,7 @@ const ourFriendSchema = new Schema({
         type: String,
         required: true
     },
-    img: {
+    imgUrl: {
         type: String,
         required: true
     },
@@ -31,6 +43,6 @@ const ourFriendSchema = new Schema({
 
 ourFriendSchema.post('save', handleMongooseError);
 
-const ourFriend = model('contact', ourFriendSchema);
+const ourFriend = model('ourfriend', ourFriendSchema);
 
 module.exports = ourFriend;
