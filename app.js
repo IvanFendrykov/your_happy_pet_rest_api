@@ -23,8 +23,8 @@ app.use('/api/ourfriends', ourFriendsRouter);
 
 
 
-app.use("/api/myPet", myPetRout);
 
+app.use("/api/myPet", myPetRout);
 app.use("/api/petSale", sellRout);
 app.use("/api/lostFound", lostFound);
 app.use("/api/inGoodHands", goodHands);
