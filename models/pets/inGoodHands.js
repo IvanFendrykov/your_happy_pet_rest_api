@@ -46,6 +46,6 @@ const goodHandsSchema = new Schema({
   },
 });
 
-const InGoodHands = model(" inGoodHangs", goodHandsSchema);
+const InGoodHands = model("InGoodHands", goodHandsSchema);
 
 module.exports = InGoodHands;
