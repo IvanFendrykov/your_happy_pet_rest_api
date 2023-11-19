@@ -3,8 +3,8 @@ const upload = require("../../../middlewares/uploadMyPet");
 
 
 const { addGoodHands } = require("../../../controllers/pets/goodHangs/addGoodHands");
-const { getGoodHands } = require("../../../controllers/pets/goodhangs/getGoodHands");
-const { delGoodHands } = require("../../../controllers/pets/goodhangs/delGoodHands");
+const { getGoodHands } = require("../../../controllers/pets/goodHangs/getGoodHands");
+const { delGoodHands } = require("../../../controllers/pets/goodHangs/delGoodHands");
 
 const isValidId = require("../../../middlewares/isValidId");
 
