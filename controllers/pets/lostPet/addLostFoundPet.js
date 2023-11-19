@@ -1,10 +1,9 @@
 const fs = require("fs");
-const ctrlWrapper = require("../../helpers/ctrlWrapper");
-const myPet = require("../../models/pets/myPet");
 const path = require("path");
+const LostFound = require("../../../models/pets/lostFoundPet");
+const ctrlWrapper = require("../../../helpers/ctrlWrapper");
 
-const addMyPet = ctrlWrapper(async (req, res) => {
-  console.log(req.file);
+const addlostFoundPet = ctrlWrapper(async (req, res) => {
   const { path: tempUpload, originalname } = req.file;
 
   const resultPath = path.join(
@@ -22,8 +21,7 @@ const addMyPet = ctrlWrapper(async (req, res) => {
 
   req.body.image = image;
 
-  
-  const response = await myPet.create(req.body);
+  const response = await LostFound.create(req.body);
   res.status(201).json({
     code: 201,
     status: "created",
@@ -32,5 +30,5 @@ const addMyPet = ctrlWrapper(async (req, res) => {
 });
 
 module.exports = {
-  addMyPet,
+  addlostFoundPet,
 };

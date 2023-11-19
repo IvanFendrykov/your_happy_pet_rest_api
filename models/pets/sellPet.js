@@ -1,9 +1,15 @@
 const { Schema, model } = require("mongoose");
 
-const myPetSchema = new Schema({
+const sellPetSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Please provide the name.'],
+    minlength: 2,
+    maxlength: 20,
+  },
+  title: {
+    type: String,
+    required: [true, 'Please provide the title.'],
     minlength: 2,
     maxlength: 20,
   },
@@ -18,9 +24,22 @@ const myPetSchema = new Schema({
     minlength: 2,
     maxlength: 20,
   },
+  gender: {
+    type: String,
+    enum: ["male", "female"],
+    required: [true, 'Please specify the gender as "male" or "female".'],
+  },
   image: {
     type: String,
     required: [true, 'Please provide the image URL.'],
+  },
+  location: {
+    type: String,
+    required: [true, 'Please provide the location.'],
+  },
+  price: {
+    type: String,
+    required: [true, 'Please provide the price.'],
   },
   comments: {
     type: String,
@@ -30,6 +49,6 @@ const myPetSchema = new Schema({
   },
 });
 
-const MyPet = model("pet", myPetSchema);
+const SellPet = model("sellPets", sellPetSchema);
 
-module.exports = MyPet;
+module.exports = SellPet;
