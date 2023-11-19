@@ -10,6 +10,7 @@ const addGoodHands = ctrlWrapper(async (req, res) => {
     __dirname,
     "../",
     "../",
+    "../",
     "public",
     "image",
     originalname
