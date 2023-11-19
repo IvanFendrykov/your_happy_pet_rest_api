@@ -2,7 +2,7 @@ const express = require("express");
 const upload = require("../../../middlewares/uploadMyPet");
 
 const {addGoodHands} = require("../../../controllers/pets/goodhangs/addGoodhands");
-const { getGoodHands } = require("../../../controllers/pets/goodhangs/getGoodhands");
+const { getGoodHands } = require("../../../controllers/pets/goodhangs/getGoodHands");
 const { delGoodHands } = require("../../../controllers/pets/goodhangs/delGoodhands");
 const isValidId = require("../../../middlewares/isValidId");
 
