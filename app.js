@@ -9,6 +9,7 @@ const lostFound = require("./routes/api/pets/lostFoundPet");
 const goodHands = require("./routes/api/pets/inGoodHands");
 
 const ourFriendsRouter = require('./routes/api/ourFriends');
+const registerRouter = require('./routes/api/users');
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -18,8 +19,7 @@ app.use(express.json());
 
 
 app.use('/api/ourfriends', ourFriendsRouter);
-
-
+app.use('/api/auth', registerRouter);
 
 
 
