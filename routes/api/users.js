@@ -1,0 +1,10 @@
+const express = require("express");
+const router = express.Router();
+
+const {validateBody} = require('../../middlewares');
+const {schemas} = require('../../models/user');
+const ctrl = require('../../controllers/users');
+
+router.post('/register', validateBody(schemas.registerShema), ctrl.register);
+
+module.exports = router;
