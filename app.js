@@ -9,6 +9,7 @@ const lostFound = require("./routes/api/pets/lostFoundPet");
 const goodHands = require("./routes/api/pets/inGoodHands");
 
 const ourFriendsRouter = require('./routes/api/ourFriends');
+const newsRouter = require("./routes/api/news");
 const registerRouter = require('./routes/api/users');
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -30,6 +31,7 @@ app.use("/api/lostFound", lostFound);
 app.use("/api/inGoodHands", goodHands);
 
 app.use('/api/ourfriends', ourFriendsRouter);
+app.use('/api/news', newsRouter);
 
 
 app.use((req, res) => {
