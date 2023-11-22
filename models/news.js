@@ -35,6 +35,6 @@ const newsSchema = new Schema(
 
 newsSchema.post("save", handleMongooseError);
 
-const News = model("contacts", newsSchema);
+const News = model("news", newsSchema);
 
 module.exports = News;
