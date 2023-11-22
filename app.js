@@ -11,6 +11,7 @@ const goodHands = require("./routes/api/pets/inGoodHands");
 const ourFriendsRouter = require('./routes/api/ourFriends');
 const newsRouter = require("./routes/api/news");
 const registerRouter = require('./routes/api/users');
+const login = require("./routes/api/users");
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/ourfriends', ourFriendsRouter);
 app.use('/api/auth', registerRouter);
+app.use('/api/auth', login);
 
 
 
