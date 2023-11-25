@@ -11,6 +11,7 @@ const goodHands = require("./routes/api/pets/inGoodHands");
 const ourFriendsRouter = require("./routes/api/ourFriends");
 const newsRouter = require("./routes/api/news");
 const noticesRouter = require("./routes/api/notices");
+const userNoticesRouter = require("./routes/api/userNotices");
 const registerRouter = require("./routes/api/users");
 const login = require("./routes/api/users");
 
@@ -32,6 +33,7 @@ app.use("/api/inGoodHands", goodHands);
 app.use("/api/ourfriends", ourFriendsRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/notices", noticesRouter);
+app.use("/api/user", userNoticesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
