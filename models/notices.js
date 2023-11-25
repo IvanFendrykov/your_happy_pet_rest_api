@@ -7,6 +7,7 @@ const noticesSchema = new Schema(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     noticeType: {
       type: String,
@@ -39,7 +40,6 @@ const noticesSchema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
     },
     comments: {
       type: String,
