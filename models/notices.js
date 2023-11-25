@@ -54,6 +54,6 @@ const noticesSchema = new Schema(
 
 noticesSchema.post("save", handleMongooseError);
 
-const Notices = model("news", noticesSchema);
+const Notices = model("notices", noticesSchema);
 
 module.exports = Notices;

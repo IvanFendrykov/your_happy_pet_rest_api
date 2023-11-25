@@ -3,8 +3,9 @@ const { ctrlWrapper } = require("../helpers");
 const Notices = require("../models/notices");
 
 const addNotice = async (req, res) => {
-  const response = await Notices;
-  res.json(response);
+  req.body.noticeOwner = req.user.username;
+  const response = await Notices.create(req.body);
+  res.json(response._id);
 };
 
 const getNoticesById = async (req, res) => {

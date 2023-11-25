@@ -1,15 +1,16 @@
 const express = require("express");
 
-const { getAllNews } = require("../../controllers/news");
+const { addNotice } = require("../../controllers/notices");
+const { authMiddleware } = require("../../middlewares/auth");
 
 const router = express.Router();
 
-router.post("/", addNotice);
+router.post("/", authMiddleware, addNotice);
 
-router.get("/:noticeId", getNoticesById);
+// router.get("/:noticeId", getNoticesById);
 
-router.get("/", getNoticesByQuery);
+// router.get("/", getNoticesByQuery);
 
-router.delete("/:noticeId", deleteNoticeById);
+// router.delete("/:noticeId", deleteNoticeById);
 
 module.exports = router;
