@@ -65,9 +65,38 @@ const logout = async (req, res) => {
 };
 
 // notices
+const addNoticeToFavorite = async (req, res) => {
+  const user = await User.findOne({ username: req.user.username });
+  user.favoriteNotices.push(req.params.noticeId);
+  await user.save();
+  res.status(200).json("true");
+};
+
+const getUserFavoriteNotices = async (req, res) => {
+  req.body.noticeOwner = req.user.username;
+  const response = await Notices.create(req.body);
+  res.json(response._id);
+};
+
+const deleteNoticeFromFavorite = async (req, res) => {
+  req.body.noticeOwner = req.user.username;
+  const response = await Notices.create(req.body);
+  res.json(response._id);
+};
+
+const getAllNotices = async (req, res) => {
+  req.body.noticeOwner = req.user.username;
+  const response = await Notices.create(req.body);
+  res.json(response._id);
+};
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
+  // notices
+  addNoticeToFavorite: ctrlWrapper(addNoticeToFavorite),
+  getUserFavoriteNotices: ctrlWrapper(getUserFavoriteNotices),
+  deleteNoticeFromFavorite: ctrlWrapper(deleteNoticeFromFavorite),
+  getAllNotices: ctrlWrapper(getAllNotices),
 };

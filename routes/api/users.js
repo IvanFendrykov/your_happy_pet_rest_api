@@ -9,4 +9,4 @@ router.post("/register", validateBody(registerSchema), register);
 router.post("/login", validateBody(loginSchema), login);
 router.post("/logout", authMiddleware, logout);
 
-router.module.exports = router;
+module.exports = router;
