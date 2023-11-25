@@ -2,6 +2,7 @@ const { User } = require("../models/user");
 const { ctrlWrapper, HttpError } = require("../helpers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Notices = require("../models/notices");
 
 require("dotenv").config();
 
@@ -87,9 +88,8 @@ const deleteNoticeFromFavorite = async (req, res) => {
 };
 
 const getAllNotices = async (req, res) => {
-  req.body.noticeOwner = req.user.username;
-  const response = await Notices.create(req.body);
-  res.json(response._id);
+  const response = await Notices.find({ noticeOwner: req.user.username });
+  res.json(response);
 };
 
 module.exports = {
