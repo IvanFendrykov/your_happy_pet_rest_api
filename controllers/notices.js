@@ -20,7 +20,17 @@ const getNoticesByQuery = async (req, res) => {
 };
 
 const deleteNoticeById = async (req, res) => {
-  const response = await Notices;
+  if (
+    req.user.username !==
+    (await Notices.findById(req.params.noticeId))?.noticeOwner
+  ) {
+    return res.status(403).json("Not an owner");
+  }
+  console.log(
+    req.user.username,
+    (await Notices.findById(req.params.noticeId))?.noticeOwner
+  );
+  const response = await Notices.deleteOne({ _id: req.params.noticeId });
   res.json(response);
 };
 
