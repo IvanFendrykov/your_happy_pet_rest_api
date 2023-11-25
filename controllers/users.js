@@ -73,9 +73,8 @@ const addNoticeToFavorite = async (req, res) => {
 };
 
 const getUserFavoriteNotices = async (req, res) => {
-  req.body.noticeOwner = req.user.username;
-  const response = await Notices.create(req.body);
-  res.json(response._id);
+  const response = await User.findOne({ username: req.user.username });
+  res.json(response.favoriteNotices);
 };
 
 const deleteNoticeFromFavorite = async (req, res) => {
