@@ -10,7 +10,11 @@ const { authMiddleware } = require("../../middlewares/auth");
 
 router.post("/favoriteNotices/:noticeId", authMiddleware, addNoticeToFavorite);
 router.get("/favoriteNotices", authMiddleware, getUserFavoriteNotices);
-router.delete("/favoriteNotices", authMiddleware, deleteNoticeFromFavorite);
+router.delete(
+  "/favoriteNotices/:noticeId",
+  authMiddleware,
+  deleteNoticeFromFavorite
+);
 router.get("/notices", authMiddleware, getAllNotices);
 
 module.exports = router;

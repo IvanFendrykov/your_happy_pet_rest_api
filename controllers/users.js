@@ -74,13 +74,16 @@ const addNoticeToFavorite = async (req, res) => {
 
 const getUserFavoriteNotices = async (req, res) => {
   const response = await User.findOne({ username: req.user.username });
-  res.json(response.favoriteNotices);
+  res.status(200).json(response.favoriteNotices);
 };
 
 const deleteNoticeFromFavorite = async (req, res) => {
-  req.body.noticeOwner = req.user.username;
-  const response = await Notices.create(req.body);
-  res.json(response._id);
+  const user = await User.findOne({ username: req.user.username });
+  user.favoriteNotices = user.favoriteNotices.filter(
+    (noticeId) => noticeId !== req.params.noticeId
+  );
+  const response = await user.save();
+  res.status(200).json(response.favoriteNotices);
 };
 
 const getAllNotices = async (req, res) => {
