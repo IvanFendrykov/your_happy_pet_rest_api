@@ -9,7 +9,8 @@ const addNotice = async (req, res) => {
 };
 
 const getNoticesById = async (req, res) => {
-  const response = await Notices;
+  console.log(req.params);
+  const response = await Notices.findById(req.params.noticeId);
   res.json(response);
 };
 

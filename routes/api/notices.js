@@ -1,13 +1,13 @@
 const express = require("express");
 
-const { addNotice } = require("../../controllers/notices");
+const { addNotice, getNoticesById } = require("../../controllers/notices");
 const { authMiddleware } = require("../../middlewares/auth");
 
 const router = express.Router();
 
 router.post("/", authMiddleware, addNotice);
 
-// router.get("/:noticeId", getNoticesById);
+router.get("/:noticeId", getNoticesById);
 
 // router.get("/", getNoticesByQuery);
 
