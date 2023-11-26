@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 const { handleMongooseError } = require("../helpers");
 
 const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -20,6 +21,12 @@ const userSchema = new Schema({
         minlength: 8,
         required: [true, 'Set password for user'],
     },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 }, { versionKey: false, timestamps: true });
 
 userSchema.post("save", handleMongooseError);
@@ -35,10 +42,26 @@ const loginSchema = Joi.object({
     password: Joi.string().min(8).required(),
 });
 
-const User = model("user", userSchema);
+userSchema.methods.generateAuthToken = async function() {
+    const user = this;
+    const token = jwt.sign(
+        { userId: user._id, email: user.email, name: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '3h' }
+    );
+
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+
+    return token;
+};
+
+const User = model("User", userSchema);
 
 module.exports = {
     User,
     registerSchema,
     loginSchema,
 };
+
+
