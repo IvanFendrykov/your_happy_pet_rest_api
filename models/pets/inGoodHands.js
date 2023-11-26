@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate");
 
 const goodHandsSchema = new Schema({
   name: {
@@ -14,10 +15,11 @@ const goodHandsSchema = new Schema({
     maxlength: 20,
   },
   birthDay: {
-    type: String,
-    required: [true, "Please provide the birth day in MM/DD/YYYY format."],
-    match: /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
+    type: Date,
+    required: true,
+    match:  /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
   },
+
   typeOfPet: {
     type: String,
     required: [true, "Please provide the type of pet."],
@@ -46,6 +48,7 @@ const goodHandsSchema = new Schema({
   },
 });
 
+goodHandsSchema.plugin(mongoosePaginate);
 const InGoodHands = model("InGoodHands", goodHandsSchema);
 
 module.exports = InGoodHands;

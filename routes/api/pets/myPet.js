@@ -7,8 +7,8 @@ const { delMyPet } = require("../../../controllers/pets/myPet/delMyPet");
 const isValidId = require("../../../middlewares/isValidId");
 const router = express.Router();
 
-router.post("/", upload.single("image"), addMyPet);
+router.post("/",  upload.single("image"), addMyPet);
 router.get("/", getAllMyPet);
-router.delete("/:petId",isValidId, delMyPet);
+router.delete("/:petId", isValidId, delMyPet);
 
 module.exports = router;

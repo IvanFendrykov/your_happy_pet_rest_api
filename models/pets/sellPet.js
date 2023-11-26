@@ -1,26 +1,28 @@
 const { Schema, model } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate");
 
 const sellPetSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Please provide the name.'],
+    required: [true, "Please provide the name."],
     minlength: 2,
     maxlength: 20,
   },
   title: {
     type: String,
-    required: [true, 'Please provide the title.'],
+    required: [true, "Please provide the title."],
     minlength: 2,
     maxlength: 20,
   },
   birthDay: {
-    type: String,
-    required: [true, 'Please provide the birth day in MM/DD/YYYY format.'],
-    match: /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
+    type: Date,
+    required: true,
+    match:  /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
   },
+
   typeOfPet: {
     type: String,
-    required: [true, 'Please provide the type of pet.'],
+    required: [true, "Please provide the type of pet."],
     minlength: 2,
     maxlength: 20,
   },
@@ -31,24 +33,24 @@ const sellPetSchema = new Schema({
   },
   image: {
     type: String,
-    required: [true, 'Please provide the image URL.'],
+    required: [true, "Please provide the image URL."],
   },
   location: {
     type: String,
-    required: [true, 'Please provide the location.'],
+    required: [true, "Please provide the location."],
   },
   price: {
     type: String,
-    required: [true, 'Please provide the price.'],
+    required: [true, "Please provide the price."],
   },
   comments: {
     type: String,
-    required: [true, 'Please provide comments.'],
+    required: [true, "Please provide comments."],
     minlength: 3,
     maxlength: 499,
   },
 });
-
+sellPetSchema.plugin(mongoosePaginate);
 const SellPet = model("sellPets", sellPetSchema);
 
 module.exports = SellPet;

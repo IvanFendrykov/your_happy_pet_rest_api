@@ -2,8 +2,18 @@ const ctrlWrapper = require("../../../helpers/ctrlWrapper");
 const LostFound = require("../../../models/pets/lostFoundPet");
 
 
+
 const getlostFoundPet = ctrlWrapper(async (req, res) => {
-  const response = await LostFound.find();
+  const page = parseInt(req.query.page) || 1; 
+  const limit = parseInt(req.query.limit) || 10; 
+
+  const options = {
+    page: page,
+    limit: limit,
+  };
+
+  const response = await LostFound.paginate({}, options);
+
   res.status(200).json({
     code: 200,
     status: "finded",
@@ -12,5 +22,5 @@ const getlostFoundPet = ctrlWrapper(async (req, res) => {
 });
 
 module.exports = {
-    getlostFoundPet,
+  getlostFoundPet,
 };
