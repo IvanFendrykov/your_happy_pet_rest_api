@@ -12,13 +12,23 @@ const register = async (req, res) => {
   if (user) {
     throw HttpError(409, "Email already in use");
   }
+  
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const newUser = await User.create({ ...req.body, password: hashPassword, });
+  
+  const payload = {
+    userId: newUser._id,
+  };
+
+  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" });
+  
+  await User.findByIdAndUpdate(newUser._id, { token }, { new: true });
 
   res.status(201).json({
     username: newUser.username,
     email: newUser.email,
+    token: token,
   });
 };
 
