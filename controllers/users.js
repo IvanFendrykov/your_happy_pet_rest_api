@@ -2,8 +2,10 @@ const { User } = require("../models/user");
 const { ctrlWrapper, HttpError } = require("../helpers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = process.env;
 
 require("dotenv").config();
+
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -39,12 +41,11 @@ const login = async (req, res) => {
   const payload = {
     userId: user._id,
   };
-
   const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" });
 
   await User.findByIdAndUpdate(user._id, { token }, { new: true });
 
-  res.status(200).json({ username: user.username, token });
+  res.status(200).json({ username: user.username, token, email: user.email });
 };
 
 const getCurrentUser = async (req, res) => {
