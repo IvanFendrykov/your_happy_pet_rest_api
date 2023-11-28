@@ -68,7 +68,7 @@
             "description": "Bad request"
           },
           "409": {
-            "description": "Email in use"
+            "description": "Email already in use"
           }
         }
       }
@@ -433,16 +433,44 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": [],
+        "required": ["username", "email", "password"],
         "properties": {
-          "username": {},
-          "email": {},
-          "password": {}
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "alina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "alina@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "nirodalina123"
+          }
         }
       },
       "RegistrationResponse": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "alina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "alina@gmail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        }
       },
 
       "LoginRequest": {
