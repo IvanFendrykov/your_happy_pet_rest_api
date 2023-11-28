@@ -10,11 +10,12 @@ const {
 } = require("../../controllers/users");
 const { authenticateUser } = require("../../middlewares/auth");
 const { validateBody } = require("../../middlewares");
+const upload = require("../../middlewares/uploadMyPet");
 
 router.post("/register", validateBody(registerSchema), register);
 router.post("/login", validateBody(loginSchema), login);
 router.post("/logout", authenticateUser, logout);
 router.get("/current", authenticateUser, getCurrentUser);
-router.patch("/current", authenticateUser, updateUser);
+router.patch("/current", authenticateUser, upload.single("image"), updateUser);
 
 module.exports = router;

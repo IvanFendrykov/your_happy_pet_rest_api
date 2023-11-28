@@ -1,5 +1,6 @@
 const { User } = require("../models/user");
 const { ctrlWrapper, HttpError } = require("../helpers");
+const cloudinary = require("../servis/cloudinary");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -63,24 +64,28 @@ const getCurrentUser = async (req, res) => {
     phone: req.user.phone,
     birthDay: req.user.birthDay,
     city: req.user.city,
+    profilePic: req.user.profilePic,
   });
 };
 
 const updateUser = async (req, res) => {
-  const { username, email, phone, birthDay, city, profilePic } = req.body;
+  const { username, email, phone, birthDay, city } = req.body;
   console.log(req.body);
-  const response = await User.findByIdAndUpdate(
-    req.user._id,
-    {
-      username,
-      email,
-      phone,
-      birthDay,
-      city,
-      profilePic,
-    },
-    { new: true }
-  );
+  const payload = {
+    username,
+    email,
+    phone,
+    birthDay,
+    city,
+  };
+  if (req.file) {
+    const { path: tempUpload } = req.file;
+    const resultImg = await cloudinary.uploader.upload(tempUpload);
+    payload.profilePic = resultImg.url;
+  }
+  const response = await User.findByIdAndUpdate(req.user._id, payload, {
+    new: true,
+  });
 
   res.json(response);
 };
