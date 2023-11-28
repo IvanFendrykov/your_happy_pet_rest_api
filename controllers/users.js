@@ -12,17 +12,16 @@ const register = async (req, res) => {
   if (user) {
     throw HttpError(409, "Email already in use");
   }
-  
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword, });
-  
+  const newUser = await User.create({ ...req.body, password: hashPassword });
+
   const payload = {
     userId: newUser._id,
   };
 
   const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" });
-  
+
   await User.findByIdAndUpdate(newUser._id, { token }, { new: true });
 
   res.status(201).json({
@@ -58,9 +57,32 @@ const login = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  const { user_id, username, email, token, password } = req.body;
+  res.json({
+    username: req.user.username,
+    email: req.user.email,
+    phone: req.user.phone,
+    birthDay: req.user.birthDay,
+    city: req.user.city,
+  });
+};
 
-  res.json({ user_id, username, email, token, password });
+const updateUser = async (req, res) => {
+  const { username, email, phone, birthDay, city, profilePic } = req.body;
+  console.log(req.body);
+  const response = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      username,
+      email,
+      phone,
+      birthDay,
+      city,
+      profilePic,
+    },
+    { new: true }
+  );
+
+  res.json(response);
 };
 
 const logout = async (req, res) => {
@@ -77,4 +99,5 @@ module.exports = {
   login: ctrlWrapper(login),
   getCurrentUser: ctrlWrapper(getCurrentUser),
   logout: ctrlWrapper(logout),
+  updateUser: ctrlWrapper(updateUser),
 };
