@@ -21,12 +21,12 @@
       "description": "Authorization endpoints"
     },
     {
-      "name": "Notices",
-      "description": "Endpoints for notices managing"
-    },
-    {
       "name": "Pets",
       "description": "Endpoints for user's pets"
+    },
+    {
+      "name": "Notices",
+      "description": "Endpoints for notices managing"
     },
     {
       "name": "News",
@@ -68,7 +68,7 @@
             "description": "Bad request"
           },
           "409": {
-            "description": "Email in use"
+            "description": "Email already in use"
           }
         }
       }
@@ -145,17 +145,110 @@
       }
     },
 
-    "/api/notices/{category}": {
+    "/api/myPet": {
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Add user's pet",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Information about the pet was published",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPetsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400, `The file is not loaded/The text fields are not filled in"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "get": {
+        "tags": ["Pets"],
+        "summary": "Add user's pet",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string",
+            "description": "Page number for pagination. Default 1."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "string",
+            "description": "Count of articles per page. Default 12."
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Information about the pet was published",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPetsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400, `The file is not loaded/The text fields are not filled in"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/myPet/:petId": {
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete the pet by id",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Information about the pet was published",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePetsResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Delete success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+
+    "/api/notices": {
+      "post": {
         "tags": ["Notices"],
-        "summary": "Get notices by category",
+        "summary": "Adding a notices",
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetNoticeResponse"
+                  "$ref": "#/components/schemas/PostNoticeResponse"
                 }
               }
             }
@@ -166,17 +259,85 @@
           }
         }
       },
-      "post": {
+      "get": {
         "tags": ["Notices"],
-        "summary": "Add new notice by category",
+        "summary": "Get all notices ",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string",
+            "description": "Page number for pagination. Default 1."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "string",
+            "description": "Count of articles per page. Default 12."
+          }
+        ],
         "responses": {
-          "201": {
-            "description": "Notice created successfully",
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetNoticeResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostNoticeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No notices found for given category",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/notices/search/search{title}": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get notices by search of title",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string",
+            "description": "Page number for pagination. Default 1."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "string",
+            "description": "Count of articles per page. Default 12."
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "required": false,
+            "type": "string",
+            "description": "The query for search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostNoticeResponse"
+                  }
                 }
               }
             }
@@ -185,56 +346,33 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Category not found"
+            "description": "Not found",
+            "content": {}
           }
         }
       }
     },
-    "/api/notices/notice/{id}": {
+    "/api/notices/favorite": {
       "get": {
         "tags": ["Notices"],
-        "summary": "Get notice by ID",
+        "summary": "Get all favorite",
         "security": [{ "Bearer": [] }],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetNoticeResponse"
-                }
-              }
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string",
+            "description": "Page number for pagination. Default 1."
           },
-          "404": {
-            "description": "Notice not found"
-          },
-          "500": {
-            "description": "Server error"
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "string",
+            "description": "Count of articles per page. Default 12."
           }
-        }
-      },
-      "delete": {
-        "tags": ["Notices"],
-        "summary": "Delete notice by ID",
-        "security": [{ "Bearer": [] }],
-        "responses": {
-          "204": {
-            "description": "Successful operation"
-          },
-          "404": {
-            "description": "Notice not found"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      },
-      "put": {
-        "tags": ["Notices"],
-        "summary": "Updates notice",
-        "security": [{ "Bearer": [] }],
-
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -243,35 +381,34 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetNoticeResponse"
+                    "$ref": "#/components/schemas/PostNoticeResponse"
                   }
                 }
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
-            "description": "No notices found for given category",
+            "description": "Not found",
             "content": {}
           }
         }
       }
     },
     "/api/notices/favorite/{id}": {
-      "post": {
-        "tags": ["Notices"],
-        "summary": "Adds the notice with the specified ID to the user's favorites list"
-      },
-      "delete": {
-        "tags": ["Notices"],
-        "summary": "Removes the notice with the specified ID from the user's favorites list"
-      }
-    },
-    "/api/notices/favorites": {
       "get": {
         "tags": ["Notices"],
-        "summary": "Get favorite notices",
-        "security": [{ "Bearer": [] }],
-
+        "summary": "Get all favorite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -280,41 +417,132 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetNoticeResponse"
+                    "$ref": "#/components/schemas/PostNoticeResponse"
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "No favorite notices found ",
+            "description": "Not found",
             "content": {}
           }
         }
       }
     },
-    "/api/notices": {
-      "get": {
+    "/api/notices/{id}": {
+      "delete": {
         "tags": ["Notices"],
-        "summary": "Get notices created by user",
+        "summary": "Delete the pet by id",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Information about the pet was published",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetNoticeResponse"
-                  }
+                  "$ref": "#/components/schemas/DeletePetsResponse"
                 }
               }
             }
           },
+          "204": {
+            "description": "Delete success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
-            "description": "No notices found for given category",
-            "content": {}
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/notices/{id}/favorite": {
+      "patch": {
+        "tags": ["Notices"],
+        "summary": "Toogle: Delete and add to user model in favorite ",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Information about the pet was published",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPetsResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Delete success"
+          },
+
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/notices/my/adds": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Delete the pet by id",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string",
+            "description": "Page number for pagination. Default 1."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "string",
+            "description": "Count of articles per page. Default 12."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Take those that I added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePetsResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Delete success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -324,6 +552,22 @@
       "get": {
         "tags": ["News"],
         "summary": "News about pets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "number",
+            "description": "Page number for pagination. Default 1."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "number",
+            "description": "Count of articles per page. Default 6."
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -345,6 +589,23 @@
       "get": {
         "tags": ["News"],
         "summary": "Find news by key words",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "request",
+            "required": true,
+            "type": "string",
+            "description": "Page number for pagination. Default 1.",
+            "example": "Cat"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "number",
+            "description": "Page number for pagination. Default 1."
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -385,66 +646,210 @@
           }
         }
       }
-    },
-    "/api/myPet": {
-      "post": {
-        "tags": ["Pets"],
-        "summary": "Add user's pet",
-
-        "responses": {
-          "201": {
-            "description": "Information about the pet was published",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PostPetsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "400, `The file is not loaded/The text fields are not filled in"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-
-    "/api/myPet/:petId": {
-      "delete": {
-        "tags": ["Pets"],
-        "summary": "Delete the pet by id",
-
-        "responses": {
-          "204": {
-            "description": "The pet was deleted"
-          },
-          "404": {
-            "description": "Pet with id ${id} not found"
-          }
-        }
-      }
     }
   },
-
   "components": {
     "schemas": {
+      "PostNoticeResponse": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Notices category"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet's name"
+          },
+          "title": {
+            "type": "string",
+            "description": "Pet's title"
+          },
+          "birthDay": {
+            "type": "string",
+            "description": "Pet's birthDay"
+          },
+          "typeOfPet": {
+            "type": "string",
+            "description": "type of pet"
+          },
+          "gender": {
+            "type": "string",
+            "description": "gender of pet"
+          },
+          "image": {
+            "type": "string",
+            "description": "Pet's image url"
+          },
+          "location": {
+            "type": "string",
+            "description": "location about pet"
+          },
+          "comments": {
+            "type": "string",
+            "description": "comments about pet"
+          },
+          "owner": {
+            "type": "string",
+            "description": "pet's owner"
+          },
+          "_id": {
+            "type": "string",
+            "description": "pet's id"
+          }
+        },
+        "example": {
+          "category": "Notices category",
+          "name": "Jumba",
+          "title": "Umba",
+          "birthday": "2019-04-03T21:00:00.000Z",
+          "typeOfPet": "domestic cat",
+          "gender": "Male",
+          "image": "https://res.cloudinary.com/dgei1ulzc/image/upload/v1684017393/ryt2sd2jixhzisfzubvv.jpg",
+          "comments": "Jumba Umba",
+          "owner": "645f8849927886006f9a291",
+          "_id": "646010f2da84cd379a718d04"
+        }
+      },
+      "GetPetsResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet's name"
+          },
+          "birthDay": {
+            "type": "string",
+            "description": "Pet's birthDay"
+          },
+          "typeOfPet": {
+            "type": "string",
+            "description": "type of pet"
+          },
+          "image": {
+            "type": "string",
+            "description": "Pet's image url"
+          },
+          "comments": {
+            "type": "string",
+            "description": "comments about pet"
+          },
+          "owner": {
+            "type": "string",
+            "description": "pet's owner"
+          },
+          "_id": {
+            "type": "string",
+            "description": "pet's id"
+          }
+        },
+        "example": {
+          "name": "Jumba",
+          "birthDay": "2019-04-03T21:00:00.000Z",
+          "typeOfPet": "domestic cat",
+          "comments": "Jumba Umba",
+          "owner": "645f8849927886006f9a291",
+          "image": "https://res.cloudinary.com/dgei1ulzc/image/upload/v1684017393/ryt2sd2jixhzisfzubvv.jpg",
+          "_id": "646010f2da84cd379a718d04"
+        }
+      },
+
+      "PostPetsResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet's name"
+          },
+          "birthDay": {
+            "type": "string",
+            "description": "Pet's birthDay"
+          },
+          "typeOfPet": {
+            "type": "string",
+            "description": "type of pet"
+          },
+          "image": {
+            "type": "string",
+            "description": "Pet's image url"
+          },
+          "comments": {
+            "type": "string",
+            "description": "comments about pet"
+          },
+          "owner": {
+            "type": "string",
+            "description": "pet's owner"
+          },
+          "_id": {
+            "type": "string",
+            "description": "pet's id"
+          }
+        },
+        "example": {
+          "name": "Jumba",
+          "birthday": "2019-04-03T21:00:00.000Z",
+          "typeOfPet": "domestic cat",
+          "comments": "Jumba Umba",
+          "owner": "645f8849927886006f9a291",
+          "image": "https://res.cloudinary.com/dgei1ulzc/image/upload/v1684017393/ryt2sd2jixhzisfzubvv.jpg",
+          "_id": "646010f2da84cd379a718d04"
+        }
+      },
+      "DeletePetsResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 204
+          },
+          "status": {
+            "type": "string",
+            "example": "Delete success"
+          }
+        }
+      },
       "RegistrationRequest": {
         "type": "object",
-        "required": [],
+        "required": ["username", "email", "password"],
         "properties": {
-          "username": {},
-          "email": {},
-          "password": {}
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "alina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "alina@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "nirodalina123"
+          }
         }
       },
       "RegistrationResponse": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "alina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "alina@gmail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        }
       },
-
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -479,26 +884,73 @@
           "email": {}
         }
       },
-
       "GetUserInfoResponse": {
         "type": "object",
         "properties": {}
       },
 
-      "GetNoticeResponse": {
-        "type": "object",
-        "properties": {}
-      },
       "SearchNoticesResponse": {
         "type": "object",
         "properties": {}
       },
-      "GetNewsResponse": {},
-      "GetFriendsResponse": {},
-      "PostPetsResponse": {
+
+      "GetNewsRequest": {
         "type": "object",
-        "properties": {}
-      }
+        "required": ["request"],
+        "propetries": {
+          "request": {
+            "type": "string",
+            "description": "request for search",
+            "example": "Cat"
+          }
+        }
+      },
+
+      "GetNewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Id of element",
+              "example": "5gfw3jsdf554tdfgj"
+            },
+            "imgUrl": {
+              "type": "string",
+              "description": "Url for news image",
+              "example": "https://ibb.co/Rck62YB"
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of news",
+              "example": "What I Learned Dogsitting for New York City’s Opulent Elite"
+            },
+            "text": {
+              "type": "string",
+              "description": "Content of news",
+              "example": "In a city of yawning class inequality, some side hustles let you glimpse how the other half lives."
+            },
+            "date": {
+              "type": "string",
+              "description": "The date of creation of the news",
+              "example": "2023-04-11T09:00:18+0000"
+            },
+            "url": {
+              "type": "string",
+              "description": "Url to the news source ",
+              "example": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html"
+            },
+            "id": {
+              "type": "string",
+              "description": "Url to the news source",
+              "example": "nyt://article/8d29f1fc-d146-509d-8ceb-5a5b17d7886b"
+            }
+          }
+        }
+      },
+
+      "GetFriendsResponse": {}
     },
     "securitySchemes": {
       "Bearer": {

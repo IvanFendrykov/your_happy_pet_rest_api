@@ -13,8 +13,7 @@ const addMyPet = ctrlWrapper(async (req, res) => {
   req.body.image = image;
 
   const response = await MyPet.create({ ...req.body, owner });
-  
- 
+
   res.status(201).json({
     code: 201,
     status: "created",
@@ -23,8 +22,8 @@ const addMyPet = ctrlWrapper(async (req, res) => {
 });
 
 const delMyPet = ctrlWrapper(async (req, res) => {
-  const { petId } = req.params;
-  await MyPet.findByIdAndDelete(petId);
+  const { id } = req.params;
+  await MyPet.findByIdAndDelete(id);
   res.status(200).json({
     code: 204,
     status: "Delete success",
