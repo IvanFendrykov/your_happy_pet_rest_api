@@ -3,6 +3,7 @@ const { ctrlWrapper, HttpError } = require("../helpers");
 const cloudinary = require("../servis/cloudinary");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { profile } = require("console");
 
 require("dotenv").config();
 
@@ -70,7 +71,6 @@ const getCurrentUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { username, email, phone, birthDay, city } = req.body;
-  console.log(req.body);
   const payload = {
     username,
     email,
@@ -86,8 +86,15 @@ const updateUser = async (req, res) => {
   const response = await User.findByIdAndUpdate(req.user._id, payload, {
     new: true,
   });
-
-  res.json(response);
+  console.log(response.username);
+  res.json({
+    username: response.username,
+    email: response.email,
+    city: response.city,
+    phone: response.phone,
+    birthday: response.birthday,
+    profilePic: response.profilePic,
+  });
 };
 
 const logout = async (req, res) => {
