@@ -63,7 +63,7 @@ const getBySearchQuery = ctrlWrapper(async (req, res) => {
   const options = getPagination(req);
 
   const result = await Notices.paginate(
-    { category: { $regex: search, $options: "i" } },
+    { title: { $regex: search, $options: "i" } },
 
     options
   );
