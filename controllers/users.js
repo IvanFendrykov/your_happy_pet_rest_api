@@ -15,7 +15,7 @@ const register = async (req, res) => {
     throw HttpError(409, "Email already in use");
   }
 
-  // const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ ...req.body, password: hashPassword });
 
   const payload = {
@@ -41,7 +41,7 @@ const login = async (req, res) => {
     throw HttpError(401, "Invalid credentials");
   }
 
-  // const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
     throw HttpError(401, "Invalid credentials");
