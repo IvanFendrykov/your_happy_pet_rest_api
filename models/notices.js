@@ -63,6 +63,12 @@ const notices = new Schema({
     ref: "user",
     required: true,
   },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
 });
 
 notices.plugin(mongoosePaginate);

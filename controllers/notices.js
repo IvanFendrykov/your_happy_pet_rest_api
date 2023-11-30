@@ -72,8 +72,9 @@ const getBySearchQuery = ctrlWrapper(async (req, res) => {
 
 const toogleFavorite = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const { favoriteNoties, _id } = req.user;
 
+  const { favoriteNoties, _id } = req.user;
+  console.log(_id);
   const index = favoriteNoties.indexOf(id);
 
   if (index === -1) {
@@ -82,9 +83,13 @@ const toogleFavorite = ctrlWrapper(async (req, res) => {
     favoriteNoties.splice(index, 1);
   }
 
-  await User.findByIdAndUpdate(_id, { favoriteNoties });
-
-  res.json({ message: "toggle success" });
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { favoriteNoties },
+    { new: true }
+  );
+  console.log(user);
+  res.json({ favoriteNoties: user.favoriteNoties });
 });
 
 const getMyNotices = ctrlWrapper(async (req, res) => {
