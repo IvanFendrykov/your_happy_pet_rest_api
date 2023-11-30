@@ -105,44 +105,65 @@
         }
       }
     },
-    "/api/auth/current": {
-      "get": {
-          "tags": ["Auth"],
-          "summary": "Get current user",
-          "security": [{ "Bearer": [] }],
-          "responses": {
-              "200": {
-                  "description": "Current user retrieved successfully",
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/GetCurrentUserResponse"
-                          }
-                      }
-                  }
-              },
-              "401": {
-                  "description": "Not authorized"
-              }
-          }
-      }
-  },
-    "/api/auth/logout": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Log out of the current user",
-        "security": [{ "Bearer": [] }],
-        "responses": {
-          "204": {
-            "description": "User logged out successfully"
-          },
-          "401": {
-            "description": "Not authorized"
+"/api/auth/current": {
+  "get": {
+    "tags": ["Auth"],
+    "summary": "Get current user",
+    "security": [{ "Bearer": [] }],
+    "responses": {
+      "200": {
+        "description": "Current user retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GetCurrentUserResponse"
+            }
           }
         }
+      },
+      "401": {
+        "description": "Not authorized"
       }
     },
-
+    "parameters": [
+      {
+        "in": "header",
+        "name": "Authorization",
+        "description": "Token for authentication",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  }
+},
+"/api/auth/logout": {
+  "post": {
+    "tags": ["Auth"],
+    "summary": "Log out of the current user",
+    "security": [{ "Bearer": [] }],
+    "parameters": [
+      {
+        "in": "header",
+        "name": "Authorization",
+        "description": "Token for authentication",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "User logged out successfully"
+      },
+      "401": {
+        "description": "Not authorized"
+      }
+    }
+  }
+},
     "/api/myPet": {
       "post": {
         "tags": ["Pets"],
@@ -814,18 +835,18 @@
           "username": {
             "type": "string",
             "description": "User's name",
-            "example": "alina"
+            "example": "user123"
           },
           "email": {
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "example": "alina@gmail.com"
+            "example": "user123@gmail.com"
           },
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "nirodalina123"
+            "example": "user123123"
           }
         }
       },
@@ -840,7 +861,8 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "example": "alina@gmail.com"
+            "format": "email",
+            "example": "user123@gmail.com"
           },
           "token": {
             "type": "string",
@@ -850,28 +872,32 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password"],
+         "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email"
+            "format": "email",
+            "example": "user123@gmail.com"
           },
           "password": {
             "type": "string",
-            "description": "User's password"
+            "description": "User's password",
+            "example": "user123123"
           }
         }
       },
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
-              "username": {},
-              "email": {}
-            }
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "user123"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
           }
         }
       },
