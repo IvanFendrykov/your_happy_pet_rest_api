@@ -27,8 +27,8 @@ const addMyPet = ctrlWrapper(async (req, res) => {
 });
 
 const delMyPet = ctrlWrapper(async (req, res) => {
-  const { petId } = req.params;
-  await MyPet.findByIdAndDelete(petId);
+  const { id } = req.params;
+  await MyPet.findByIdAndDelete(id);
   res.status(200).json({
     code: 204,
     status: "Delete success",

@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/", authenticateUser, upload.single("image"), addMyPet);
 router.get("/", authenticateUser, getAllMyPet);
-router.delete("/:petId", authenticateUser, isValidId, delMyPet);
+router.delete("/:id", authenticateUser, isValidId, delMyPet);
 
 module.exports = router;
