@@ -43,6 +43,10 @@ const userSchema = new Schema(
     favoriteNoties: [
       { type: Schema.Types.ObjectId, ref: "noties", default: "" },
     ],
+    freshRegistred: {
+      type: Boolean,
+      default: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
