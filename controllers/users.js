@@ -70,17 +70,19 @@ const getCurrentUser = async (req, res) => {
     birthDay: req.user.birthDay,
     city: req.user.city,
     profilePic: req.user.profilePic,
+    freshRegistred: req.user.freshRegistred,
   });
 };
 
 const updateUser = async (req, res) => {
-  const { username, email, phone, birthDay, city } = req.body;
+  const { username, email, phone, birthDay, city, freshRegistred } = req.body;
   const payload = {
     username,
     email,
     phone,
     birthDay,
     city,
+    freshRegistred,
   };
   if (req.file) {
     const { path: tempUpload } = req.file;
