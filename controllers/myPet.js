@@ -1,4 +1,3 @@
-const { HttpError } = require("../helpers");
 const ctrlWrapper = require("../helpers/ctrlWrapper");
 const MyPet = require("../models/myPet");
 const cloudinary = require("../servis/cloudinary");
