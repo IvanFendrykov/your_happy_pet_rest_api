@@ -12,12 +12,7 @@ const addMyPet = ctrlWrapper(async (req, res) => {
   const image = resultImg.url;
   req.body.image = image;
 
-  const response = await MyPet.create({
-    ...req.body,
-    owner,
-    email: req.user.email,
-    phone: req.user.phone,
-  });
+  const response = await MyPet.create({ ...req.body, owner });
 
   res.status(201).json({
     code: 201,

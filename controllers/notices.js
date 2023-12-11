@@ -74,7 +74,6 @@ const toogleFavorite = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
 
   const { favoriteNoties, _id } = req.user;
-  console.log(_id);
   const index = favoriteNoties.indexOf(id);
 
   if (index === -1) {
@@ -83,13 +82,9 @@ const toogleFavorite = ctrlWrapper(async (req, res) => {
     favoriteNoties.splice(index, 1);
   }
 
-  const user = await User.findByIdAndUpdate(
-    _id,
-    { favoriteNoties },
-    { new: true }
-  );
-  console.log(user);
-  res.json({ favoriteNoties: user.favoriteNoties });
+  await User.findByIdAndUpdate(_id, { favoriteNoties });
+
+  res.json({ message: "toggle success" });
 });
 
 const getMyNotices = ctrlWrapper(async (req, res) => {

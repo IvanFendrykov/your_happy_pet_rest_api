@@ -40,9 +40,7 @@ const userSchema = new Schema(
     profilePic: {
       type: String,
     },
-    favoriteNoties: [
-      { type: Schema.Types.ObjectId, ref: "noties", default: "" },
-    ],
+    favoriteNoties: [{ type: Schema.Types.ObjectId, ref: "noties" }],
     freshRegistred: {
       type: Boolean,
       default: true,
